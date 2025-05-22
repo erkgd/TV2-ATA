@@ -1,0 +1,393 @@
+﻿ Documentació Tècnica: Aplicació Flutter Image Crawler
+
+ Comparativa de frameworks amb justificació tècnica de l'elecció
+
+En el desenvolupament d'aplicacions mòbils multiplataforma, existeixen diverses opcions tecnològiques. Després d'una anàlisi exhaustiva, s'ha escollit Flutter pels següents motius tècnics:
+
+ Comparativa amb altres frameworks
+
+| Característica | Flutter | React Native | Xamarin | Ionic |
+|---------------|---------|--------------|---------|-------|
+| Rendiment | Molt alt (proper a natiu) | Alt | Alt | Moderat |
+| UI nativa | Widgets propis amb aparença nativa | Components natius | Components natius | Basat en web |
+| Compilació | Compilació AOT a codi natiu | Bridge JavaScript | Compilat a natiu | Webview |
+| Corba d'aprenentatge | Moderada | Baixa (si es coneix React) | Alta (requereix C) | Baixa (si es coneix Angular/React) |
+| Hot Reload | Sí | Sí | Limitat | Sí |
+| Accés a APIs natives | Complet mitjançant plugins | Complet però requereix bridges | Complet | Limitat |
+| Ecosistema de paquets | En creixement ràpid | Madur | Madur | Madur |
+
+ Justificació tècnica de l'elecció de Flutter
+
+1. Rendiment superior: Flutter utilitza el motor Skia que compila directament a codi natiu ARM, oferint un rendiment proper a les aplicacions natives.
+
+2. Coherència visual: El sistema de widgets de Flutter garanteix que la interfície d'usuari sigui idèntica en iOS i Android, simplificant el desenvolupament i les proves.
+
+3. Hot reload: Aquesta característica accelera significativament el cicle de desenvolupament, permetent veure canvis en temps real sense perdre l'estat de l'aplicació.
+
+4. Dart com a llenguatge: Ofereix tipat estàtic, orientació a objectes i patrons funcionals que milloren la qualitat i mantenibilitat del codi.
+
+5. Integració amb APIs: La comunitat de Flutter ha desenvolupat un ampli ventall de plugins que faciliten la integració amb serveis de backend, incloent-hi REST APIs.
+
+6. Independència de la plataforma: Flutter no depèn dels components natius de la plataforma, el que redueix els problemes de compatibilitat i inconsistències.
+
+7. Suport per a state management: Ofereix diverses solucions robustes per a la gestió de l'estat (Provider, BLoC, Riverpod) que s'adapten als patrons de disseny moderns.
+
+8. Comunitat i documentació: Flutter compta amb una comunitat activa i una documentació extensa que facilita la resolució de problemes.
+
+ Descripció de l'arquitectura de l'app
+
+L'aplicació Flutter Image Crawler segueix una arquitectura basada en el patró BLoC (Business Logic Component) combinat amb Repository Pattern, seguint els principis de Clean Architecture per garantir un codi mantenible, testejable i escalable.
+
+ Capes de l'arquitectura
+
+1. Capa de presentació (UI)
+   - Widgets i pantalles
+   - Gestió d'estat local
+   - Navegació i routing
+
+2. Capa de lògica de negoci (BLoC)
+   - BLoCs per gestionar l'estat de l'aplicació
+   - Events i States
+   - Transformadors d'streams
+
+3. Capa de domini
+   - Models de domini
+   - Casos d'ús
+   - Interfaces de repositoris
+
+4. Capa de dades
+   - Implementacions de repositoris
+   - Fonts de dades (remotes i locals)
+   - DTOs i conversos de models
+
+ Estructura de directoris
+
+`
+lib/
+├── blocs/                BLoCs per a la gestió d'estat
+│   ├── authentication/
+│   ├── image_search/
+│   ├── image_detail/
+│   └── user_profile/
+├── models/               Models de dades
+│   ├── image_model.dart
+│   ├── user_model.dart
+│   ├── comment_model.dart
+│   └── paginated_response.dart
+├── repositories/         Implementacions de repositoris
+│   ├── image_repository.dart
+│   ├── auth_repository.dart
+│   └── user_repository.dart
+├── screens/              Pantalles de l'aplicació
+│   ├── home_screen.dart
+│   ├── search_screen.dart
+│   ├── image_detail_screen.dart
+│   ├── login_screen.dart
+│   └── profile_screen.dart
+├── services/             Serveis per a API i recursos
+│   ├── api_service.dart
+│   ├── image_service.dart
+│   ├── auth_service.dart
+│   └── storage_service.dart
+├── utils/                Utilitats i helpers
+│   ├── api_config.dart
+│   ├── constants.dart
+│   └── validators.dart
+├── widgets/              Widgets reutilitzables
+│   ├── image_card.dart
+│   ├── search_bar.dart
+│   └── comment_list.dart
+└── main.dart             Punt d'entrada de l'aplicació
+`
+
+ Flux de dades
+
+1. La interfície d'usuari (UI) genera events en resposta a les accions de l'usuari.
+2. Aquests events són enviats al BLoC corresponent.
+3. El BLoC processa l'event i sol·licita dades al Repository si cal.
+4. El Repository obté dades de la font adequada (API remota o base de dades local).
+5. Les dades tornen al BLoC, que actualitza l'estat.
+6. La UI es reconstrueix en funció del nou estat.
+
+ Gestió d'estat
+
+S'utilitza el patró BLoC amb la biblioteca flutter_bloc per gestionar l'estat de l'aplicació de forma reactiva:
+
+- Events: Representen les accions que poden canviar l'estat.
+- States: Representen l'estat actual de la UI.
+- BLoC: Converteix els events en states a través de lògica de negoci.
+
+Aquest enfocament permet:
+- Separar la UI de la lògica de negoci
+- Testejar components de forma aïllada
+- Reutilitzar lògica entre diferents parts de l'aplicació
+
+ Implementació de l'app
+
+ Navegació funcional
+
+L'aplicació implementa una navegació robusta utilitzant el sistema de navegació 2.0 de Flutter, que ofereix:
+
+- Gestió d'historial de navegació
+- URLs web per a l'aplicació web (Flutter Web)
+- Navegació basada en pila amb transicions personalitzades
+- Deep linking per obrir l'aplicació des d'enllaços externs
+
+Estructura de navegació:
+- Pantalla principal amb grid d'imatges i cercador
+- Detall d'imatge amb opcions socials
+- Pantalla de perfil d'usuari
+- Formulari de login/registre
+- Historial de cerques i favorites
+
+`dart
+// Exemple de configuració de rutes
+final GoRouter router = GoRouter(
+  routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) => const HomeScreen(),
+    ),
+    GoRoute(
+      path: '/search',
+      builder: (context, state) => SearchScreen(
+        query: state.queryParams['q'] ?? '',
+      ),
+    ),
+    GoRoute(
+      path: '/image/:id',
+      builder: (context, state) => ImageDetailScreen(
+        imageId: state.params['id']!,
+      ),
+    ),
+    GoRoute(
+      path: '/profile',
+      builder: (context, state) => const ProfileScreen(),
+    ),
+    GoRoute(
+      path: '/login',
+      builder: (context, state) => LoginScreen(
+        returnRoute: state.queryParams['return'] ?? '/',
+      ),
+    ),
+  ],
+);
+`
+
+ Integració d'APIs reals
+
+L'aplicació s'integra amb els backends desenvolupats en Django i Node.js mitjançant els següents components:
+
+- HTTP Client personalitzat amb interceptors per a:
+  - Gestió d'autenticació amb tokens JWT
+  - Gestió d'errors centralitzada
+  - Logging de peticions i respostes
+  - Reintentos en cas de fallades de xarxa
+
+- Capa de serveis que abstrau les crides a l'API:
+  - ImageService: per a cerques i gestió d'imatges
+  - AuthService: per a autenticació i gestió d'usuaris
+  - CommentService: per a interaccions socials
+
+`dart
+// Exemple d'implementació del servei d'imatges
+class ImageService {
+  final http.Client _client = http.Client();
+  final AuthService _authService = AuthService();
+
+  Future<PaginatedResponse<ImageModel>> getAllImages({int page = 1, int limit = 20}) async {
+    final token = await _authService.getToken();
+    final headers = {
+      'Content-Type': 'application/json',
+      if (token != null) 'Authorization': 'Token ',
+    };
+
+    final response = await _client.get(
+      Uri.parse('/?page=&limit='),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      final data = jsonDecode(response.body);
+      return PaginatedResponse.fromJson(
+        data, 
+        (item) => ImageModel.fromJson(item),
+      );
+    } else {
+      throw Exception('Error en obtenir imatges: ');
+    }
+  }
+}
+`
+
+- Capa de caching per millorar el rendiment:
+  - Emmagatzematge de resultats freqüents a la caché
+  - Persistència de dades amb Hive o SharedPreferences
+  - Gestió de l'estat offline amb dades locals
+
+ Estètica coherent amb el projecte web
+
+L'aplicació manté una coherència visual amb la versió web mitjançant:
+
+- Sistema de temes personalitzat que replica els colors i estils del web
+- Components visuals amb el mateix disseny i comportament
+- Animacions i transicions coherents amb l'experiència web
+- Implementació de mode fosc/clar sincronitzat amb el sistema
+
+`dart
+// Exemple d'implementació del tema
+ThemeData appTheme(Brightness brightness) {
+  return ThemeData(
+    brightness: brightness,
+    primaryColor: const Color(0xFF3B82F6),
+    accentColor: const Color(0xFF60A5FA),
+    scaffoldBackgroundColor: brightness == Brightness.light
+        ? Colors.white
+        : const Color(0xFF1F2937),
+    appBarTheme: AppBarTheme(
+      elevation: 0,
+      backgroundColor: brightness == Brightness.light
+          ? Colors.white
+          : const Color(0xFF1F2937),
+      iconTheme: IconThemeData(
+        color: brightness == Brightness.light ? Colors.black : Colors.white,
+      ),
+      titleTextStyle: TextStyle(
+        color: brightness == Brightness.light ? Colors.black : Colors.white,
+        fontSize: 20,
+        fontWeight: FontWeight.bold,
+      ),
+    ),
+    // ... altres configuracions de tema
+  );
+}
+`
+
+Adaptació responsive:
+- Layouts flexibles que s'adapten a diferents mides de pantalla
+- Ús de widgets com LayoutBuilder i MediaQuery
+- Optimització d'imatges segons la densitat de píxels del dispositiu
+- Suport per a orientacions vertical/horitzontal
+
+ Documentació de l'aplicació
+
+ Funcionalitats implementades
+
+1. Gestió d'usuaris
+   - Registre d'usuaris nous
+   - Login amb token JWT
+   - Gestió de perfil d'usuari
+   - Tancament de sessió
+
+2. Cerca i visualització d'imatges
+   - Cercador amb filtres avançats
+   - Grid d'imatges amb paginació infinita
+   - Vista detallada d'imatges
+   - Descàrrega d'imatges al dispositiu
+
+3. Funcionalitats socials
+   - Sistema de m'agrada en imatges
+   - Comentaris en imatges
+   - Historial de cerques
+   - Imatges favorites
+
+4. Característiques avançades
+   - Mode offline amb caché d'imatges
+   - Notificacions push per a interaccions
+   - Compartir imatges amb altres aplicacions
+   - Deep linking per a enllaços directes a imatges
+
+ Connexió amb els backends
+
+L'aplicació s'ha dissenyat per ser compatible amb els backends Django i Node.js desenvolupats prèviament:
+
+ Connexió amb backend Django:
+
+- Utilitza el mateix format d'autenticació basat en tokens
+- Mapatge directe entre models Django i models Flutter
+- Compatibilitat amb els endpoints de l'API REST de Django
+- Suport per a la pujada d'arxius mitjançant formularis multipart
+
+`dart
+// Configuració per a backend Django
+class ApiConfig {
+  static const String baseUrl = 'https://api-django.image-crawler.com';
+  static const String images = '/api/images';
+  static const String auth = '/api/auth';
+  static const String users = '/api/users';
+
+  // Headers específics per a Django
+  static Map<String, String> getAuthHeaders(String token) => {
+    'Content-Type': 'application/json',
+    'Authorization': 'Token ',
+  };
+}
+`
+
+ Connexió amb backend Node.js:
+
+- Autenticació mitjançant JWT
+- Adaptadors per a diferents formats de resposta
+- Optimització de les crides per reduir transferència de dades
+- Suport per a streaming de dades quan és possible
+
+`dart
+// Configuració per a backend Node.js
+class ApiConfig {
+  static const String baseUrl = 'https://api-node.image-crawler.com';
+  static const String images = '/api/images';
+  static const String auth = '/api/auth';
+  static const String users = '/api/users';
+
+  // Headers específics per a Node.js
+  static Map<String, String> getAuthHeaders(String token) => {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer ',
+  };
+}
+`
+
+ Estratègia de compatibilitat:
+
+- Capa d'abstracció de serveis que normalitza les respostes
+- Factories per crear models a partir de diferents formats JSON
+- Configuració dinàmica de l'API base segons l'entorn
+- Tests d'integració per verificar compatibilitat amb ambdós backends
+
+ Dificultats trobades i solucions implementades
+
+1. Dificultat: Inconsistències entre les respostes de les APIs de Django i Node.js.
+   
+   Solució: Implementació de capa adaptadora que normalitza les diferents estructures de resposta a un format comú utilitzable per l'aplicació. Aquest adaptador transforma els diferents formats JSON a models de domini consistents.
+
+2. Dificultat: Gestió d'imatges d'alta resolució i optimització de memòria.
+   
+   Solució: Implementació de càrrega progressiva d'imatges amb CachedNetworkImage i ImageCache personalitzat. Les imatges es carreguen en diferents resolucions segons la vista (graella o detall) i s'utilitzen tècniques de memòria cau per evitar recàrregues innecessàries.
+
+3. Dificultat: Gestió de l'estat offline i sincronització.
+   
+   Solució: Implementació de repositori local amb Hive per emmagatzemar dades crítiques i implementació d'una cua de sincronització que executa operacions pendents quan es recupera la connectivitat.
+
+4. Dificultat: Rendiment en dispositius de gamma baixa quan es carreguen moltes imatges.
+   
+   Solució: Optimització del renderitzat amb tècniques com:
+   - Lazy loading de les imatges que no són visibles
+   - Paginació eficient amb RecyclerView pattern
+   - Compressió adaptativa d'imatges segons el dispositiu
+   - Ús de const constructors per minimitzar reconstruccions
+
+5. Dificultat: Compatibilitat amb diferents versions d'Android i iOS.
+   
+   Solució: Implementació de Factory Methods per a funcionalitats específiques de plataforma i ús de dependency injection per injectar implementacions específiques segons la plataforma. Testeig exhaustiu en diferents versions de SO.
+
+6. Dificultat: Problemes de memòria en llistes llargues d'imatges.
+   
+   Solució: Implementació de widgets personalitzats que gestionen automàticament el cicle de vida de les imatges, alliberant recursos quan les imatges surten de la vista. També s'ha implementat un sistema de prioritat de càrrega que prioritza les imatges visibles.
+
+7. Dificultat: Problemes amb la gestió del token d'autenticació i sessions.
+   
+   Solució: Implementació d'un sistema de renovació automàtica de tokens mitjançant interceptors HTTP i emmagatzematge segur utilitzant flutter_secure_storage. També s'ha afegit la gestió d'errors 401 per redirigir automàticament a la pantalla de login quan el token expira.
+
+8. Dificultat: UX inconsistent entre iOS i Android.
+   
+   Solució: Creació d'una capa d'abstracció de widgets que adapta automàticament l'aparença i el comportament segons la plataforma, mantenint l'essència del disseny però respectant les convencions de cada sistema operatiu.

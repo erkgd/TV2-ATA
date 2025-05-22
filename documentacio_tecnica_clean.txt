@@ -1,0 +1,376 @@
+﻿ Documentació tècnica
+
+1. Estructura i arquitectura del nou projecte
+
+1.1 Django
+
+L'arquitectura del projecte Django està basada en el patró Model-Vista-Controlador (MVC), que en Django es coneix com a Model-Vista-Template (MVT):
+
+Models: 
+- Defineixen l'estructura de la base de dades utilitzant l'ORM de Django
+- Els principals models són: Image, User, Comment, Like, SearchHistory
+- Cada model inclou relacions i validadors per mantenir la integritat de les dades
+
+Vistes:
+- Implementades com a vistes basades en classes per aprofitar l'herència
+- Integració amb Django REST Framework per a les API
+- Utilització de mixins per a la reutilització de funcionalitats com l'autenticació
+
+Templates:
+- Sistema de plantilles de Django amb herència
+- Integració amb Tailwind CSS per a una interfície moderna i responsive
+- Components reutilitzables per mantenir la coherència visual
+
+Estructura de directoris:
+`
+django-image-scraper/
+├── image_scraper/            Projecte principal
+│   ├── settings.py           Configuració del projecte
+│   ├── urls.py               Definició d'URLs principals
+│   └── wsgi.py               Punt d'entrada WSGI
+├── scraper/                  Aplicació principal
+│   ├── admin.py              Configuració del panell d'administració
+│   ├── api_views.py          Vistes API
+│   ├── api_service.py        Serveis per a les API
+│   ├── google_scraper.py     Implementació del raspador d'imatges
+│   ├── models.py             Definició dels models de dades
+│   ├── serializers.py        Serialitzadors per a l'API REST
+│   ├── urls.py               Definició d'URLs de l'aplicació
+│   └── views.py              Vistes tradicionals
+├── templates/                Plantilles HTML
+└── static/                   Fitxers estàtics (CSS, JS, imatges)
+`
+
+Flux de dades:
+1. L'usuari sol·licita una URL
+2. El sistema d'URL de Django redirigeix a la vista corresponent
+3. La vista processa la sol·licitud, interactua amb els models si cal
+4. Es genera una resposta utilitzant les plantilles o serialitzadors
+5. El resultat es retorna a l'usuari
+
+ 1.2 Node
+
+L'arquitectura del projecte Node.js segueix un patró RESTful API amb estructura MVC i orientat a microserveis:
+
+Models:
+- Esquemes MongoDB definits amb Mongoose
+- Validació integrada a nivell d'esquema
+- Middlewares per a operacions pre/post guardat
+
+Controladors:
+- Separació clara entre lògica de negoci i gestió de peticions
+- Gestió d'errors centralitzada
+- Middleware d'autenticació basat en JWT
+
+Serveis:
+- Capa de serveis per encapsular la lògica de negoci
+- Serveis externs per a Google Images i Pixabay APIs
+- Gestió de caché per a consultes freqüents
+
+Estructura de directoris:
+`
+node-image-scraper/
+├── src/
+│   ├── config/               Configuració de l'aplicació
+│   ├── controllers/          Controladors per a cada entitat
+│   ├── middleware/           Middleware personalitzat
+│   ├── models/               Models/Esquemes Mongoose
+│   ├── routes/               Definició de rutes API
+│   ├── services/             Serveis per a la lògica de negoci
+│   ├── utils/                Utilitats i helpers
+│   └── app.js                Punt d'entrada principal
+├── tests/                    Tests unitaris i d'integració
+└── public/                   Fitxers estàtics (si cal)
+`
+
+Flux de dades:
+1. Les peticions arriben al servidor Express
+2. Els middlewares processen la petició (autenticació, logging, etc.)
+3. El router dirigeix la petició al controlador adequat
+4. El controlador utilitza els serveis per executar la lògica de negoci
+5. Els serveis interactuen amb els models i fonts de dades externes
+6. Es retorna una resposta JSON estructurada
+
+ 1.3 Angular
+
+L'arquitectura del projecte Angular segueix un patró d'arquitectura basada en components amb gestió d'estat centralitzada:
+
+Components:
+- Estructura jeràrquica de components reutilitzables
+- Cada component encapsula la seva pròpia lògica, vista i estil
+- Ús de lazy loading per a mòduls per millorar el rendiment
+
+Serveis:
+- Injecció de dependències per a la comunicació entre components
+- Serveis HTTP per a la comunicació amb les APIs
+- Serveis d'autenticació i gestió d'estat
+
+Gestió d'estat:
+- RxJS per a la gestió d'estat reactiva
+- Stores per centralitzar l'estat de l'aplicació
+- Efectes per a operacions asíncrones
+
+Estructura de directoris:
+`
+angular-image-scraper/
+├── src/
+│   ├── app/
+│   │   ├── components/       Components compartits
+│   │   ├── pages/            Pàgines principals
+│   │   ├── guards/           Guards de rutes
+│   │   ├── interceptors/     Interceptors HTTP
+│   │   ├── interfaces/       Definicions de tipus TypeScript
+│   │   ├── services/         Serveis d'aplicació
+│   │   ├── store/            Gestió d'estat
+│   │   └── app.module.ts     Mòdul principal
+│   ├── assets/               Recursos estàtics
+│   └── environments/         Configuracions d'entorn
+`
+
+Flux de dades:
+1. L'usuari interactua amb la interfície
+2. Els components disparen accions o utilitzen serveis
+3. Els serveis comuniquen amb les APIs o actualitzen l'estat
+4. L'estat actualitzat es propaga als components
+5. Els components es re-renderitzen amb les noves dades
+
+ 2. Estratègia de compatibilitat amb Django
+
+La compatibilitat entre els diferents projectes i Django s'aconsegueix mitjançant:
+
+API RESTful consistent:
+- Endpoints amb la mateixa estructura i convencions de nomenclatura
+- Serialització de dades consistent utilitzant JSON
+- Mateixos mecanismes d'autenticació (Token-based)
+
+Mapatge de models:
+- Estructura de dades equivalent entre Django ORM i Mongoose
+- Validacions coherents en ambdues plataformes
+- Gestió consistent d'errors i excepcions
+
+Estratègies de migració:
+- Scripts per a la migració de dades entre plataformes
+- Adaptadors per a la compatibilitat de formats de resposta
+- Versionat d'API per a canvis no retrocompatibles
+
+Compatibilitat de característiques:
+- Implementació de les mateixes funcionalitats entre backends
+- Ús de patrons de disseny similars
+- Documentació exhaustiva d'API per garantir la interoperabilitat
+
+ 3. Descripció de les APIS utilitzades
+
+APIs internes desenvolupades:
+
+Autenticació:
+- POST /api/users/register: Registre d'usuaris nous
+- POST /api/users/login: Inici de sessió i obtenció de token
+- GET /api/users/profile: Obtenció del perfil d'usuari amb historial
+
+Imatges:
+- GET /api/images: Llista d'imatges amb paginació i filtres
+- GET /api/images/:id: Detalls d'una imatge específica
+- POST /api/images: Creació d'una nova imatge
+- PUT /api/images/:id: Actualització d'una imatge existent
+- DELETE /api/images/:id: Eliminació d'una imatge
+
+Interaccions socials:
+- POST /api/images/:id/like: Afegir/eliminar m'agrada a una imatge
+- POST /api/images/:id/comment: Comentar en una imatge
+- DELETE /api/comments/:id: Eliminar un comentari
+
+Cerca:
+- GET /api/search: Cerca d'imatges amb filtres avançats
+- GET /api/search/history: Historial de cerques de l'usuari
+
+APIs externes utilitzades:
+
+Google Images (raspat):
+- Implementació personalitzada de raspat d'imatges
+- Paràmetres per a filtres de cerca, drets d'autor, i tipus d'imatge
+- Extracció de metadades i generació d'URL originals
+
+Pixabay API:
+- Cerca d'imatges lliures de drets
+- Filtres per colors, orientació i categories
+- Implementació d'estratègies de caché per reduir peticions
+
+Unsplash API (opcional):
+- API alternativa per a imatges d'alta qualitat
+- Implementació de quotes i limitació de peticions
+- Filtres avançats per a cerca d'imatges específiques
+
+ 4. Integració amb MongoDB
+
+Configuració i connexió:
+- Connexió a MongoDB utilitzant Mongoose
+- Gestió de connexions persistent amb reconnexió automàtica
+- Configuració de pools de connexions per a optimització de rendiment
+
+Esquemes i models:
+- Definició d'esquemes amb validació integrada
+- Índexs per a consultes freqüents (cerca text, etiquetes, etc.)
+- Relacions entre col·leccions utilitzant referències
+
+Exemple d'esquema d'imatge:
+`javascript
+const ImageSchema = new mongoose.Schema({
+  title: { type: String, required: true, index: true },
+  url: { type: String, required: true },
+  sourceUrl: String,
+  thumbnailUrl: String,
+  isTransparent: Boolean,
+  copyrightStatus: {
+    type: String,
+    enum: ['free', 'commercial', 'noncommercial', 'unknown']
+  },
+  width: Number,
+  height: Number,
+  fileSize: Number,
+  fileType: String,
+  createdAt: { type: Date, default: Date.now },
+  likes: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Like' }],
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Comment' }]
+});
+`
+
+Operacions de dades:
+- Consultes optimitzades utilitzant agregacions
+- Operacions en lot per a millor rendiment
+- Implementació de transaccions per a operacions complexes
+- Estratègies de paginació eficient
+
+Consideracions de rendiment:
+- Índexs compostos per a consultes freqüents
+- Projecció de camps per reduir transferència de dades
+- Caché en memòria per a consultes repetitives
+- Monitorització i optimització de consultes lentes
+
+ 5. Instruccions de desplegament
+
+ Desplegament de Django
+
+Requisits previs:
+- Python 3.8 o superior
+- Pip i virtualenv
+- Base de dades PostgreSQL (producció)
+
+Passos:
+1. Preparació de l'entorn:
+   `ash
+   cd django-image-scraper
+   python -m venv venv
+   source venv/bin/activate   En Windows: venv\Scripts\activate
+   pip install -r requirements.txt
+   `
+
+2. Configuració de la base de dades:
+   `ash
+   python manage.py migrate
+   python manage.py createsuperuser
+   `
+
+3. Recollir fitxers estàtics:
+   `ash
+   python manage.py collectstatic
+   `
+
+4. Iniciar el servidor:
+   `ash
+   python manage.py runserver 0.0.0.0:8000
+   `
+
+5. Configuració per a producció:
+   - Configurar Gunicorn com a servidor WSGI
+   - Configurar Nginx com a proxy invers
+   - Configurar certificats SSL per a HTTPS
+
+ Desplegament de Node.js
+
+Requisits previs:
+- Node.js 14 o superior
+- MongoDB (executar en contenidor Docker o servei extern)
+- Npm o Yarn
+
+Passos:
+1. Iniciar MongoDB:
+   `ash
+   docker run -d --name mongodb -p 27017:27017 mongo:latest
+   `
+
+2. Preparació de l'entorn:
+   `ash
+   cd node-image-scraper
+   npm install
+   `
+
+3. Configuració d'entorn:
+   `ash
+   cp .env.example .env
+    Editar el fitxer .env amb les variables d'entorn adequades
+   `
+
+4. Iniciar el servidor:
+   `ash
+   npm start
+   `
+
+5. Configuració per a producció:
+   - Configurar PM2 per a gestió de processos
+   - Configurar Nginx com a proxy invers
+   - Configurar certificats SSL per a HTTPS
+   - Configurar monitorització i registres
+
+ Desplegament d'Angular
+
+Requisits previs:
+- Node.js 14 o superior
+- Angular CLI
+- Gestor de paquets (npm o yarn)
+
+Passos:
+1. Preparació de l'entorn:
+   `ash
+   cd angular-image-scraper
+   npm install
+   `
+
+2. Configuració d'entorn:
+   `ash
+    Editar els fitxers a src/environments/ segons l'entorn
+   `
+
+3. Compilar per a producció:
+   `ash
+   ng build --prod
+   `
+
+4. Desplegar els fitxers generats:
+   - Copiar el contingut de la carpeta dist/ al servidor web
+   - Configurar el servidor per redirigir totes les rutes a index.html
+
+5. Configuració de servidor web:
+   - Configurar Nginx o Apache com a servidor estàtic
+   - Configurar la compressió i caché per a millor rendiment
+   - Configurar certificats SSL per a HTTPS
+
+ Consideracions addicionals
+
+Seguretat:
+- Configurar correctament CORS
+- Implementar limitació de taxa (rate limiting)
+- Protegir endpoints sensibles
+- Mantenir actualitzades totes les dependències
+
+Escalabilitat:
+- Configurar balancejadors de càrrega
+- Implementar caché de resultats freqüents
+- Configurar servei CDN per a recursos estàtics
+- Monitoritzar l'ús de recursos i escalar segons necessitat
+
+Monitorització:
+- Configurar registre centralitzat
+- Implementar alerta per a errors
+- Configurar monitorització de rendiment
+- Realitzar còpies de seguretat regulars de les bases de dades
+
