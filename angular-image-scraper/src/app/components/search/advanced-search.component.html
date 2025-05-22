@@ -1,0 +1,196 @@
+<div class="container mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold mb-6">Advanced Image Search</h1>
+  
+  <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <!-- Search Query -->
+      <div class="col-span-1 md:col-span-2">
+        <label for="query" class="block text-gray-700 font-medium mb-2">Search Terms</label>
+        <input 
+          type="text" 
+          id="query" 
+          formControlName="query" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Enter search terms...">
+      </div>
+      
+      <!-- Image Size -->
+      <div>
+        <label for="size" class="block text-gray-700 font-medium mb-2">Image Size</label>
+        <select 
+          id="size" 
+          formControlName="size" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="any">Any Size</option>
+          <option value="large">Large</option>
+          <option value="medium">Medium</option>
+          <option value="small">Small</option>
+          <option value="icon">Icon</option>
+        </select>
+      </div>
+      
+      <!-- Image Type -->
+      <div>
+        <label for="type" class="block text-gray-700 font-medium mb-2">Image Type</label>
+        <select 
+          id="type" 
+          formControlName="type" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="any">Any Type</option>
+          <option value="photo">Photo</option>
+          <option value="clipart">Clipart</option>
+          <option value="lineart">Line Drawing</option>
+          <option value="animated">Animated</option>
+        </select>
+      </div>
+      
+      <!-- Color -->
+      <div>
+        <label for="color" class="block text-gray-700 font-medium mb-2">Color</label>
+        <select 
+          id="color" 
+          formControlName="color" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="any">Any Color</option>
+          <option value="color">Full Color</option>
+          <option value="blackandwhite">Black & White</option>
+          <option value="transparent">Transparent</option>
+          <option value="red">Red</option>
+          <option value="orange">Orange</option>
+          <option value="yellow">Yellow</option>
+          <option value="green">Green</option>
+          <option value="blue">Blue</option>
+          <option value="purple">Purple</option>
+          <option value="pink">Pink</option>
+          <option value="brown">Brown</option>
+          <option value="black">Black</option>
+          <option value="white">White</option>
+          <option value="gray">Gray</option>
+        </select>
+      </div>
+      
+      <!-- Aspect Ratio -->
+      <div>
+        <label for="aspect" class="block text-gray-700 font-medium mb-2">Aspect Ratio</label>
+        <select 
+          id="aspect" 
+          formControlName="aspect" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="any">Any Aspect Ratio</option>
+          <option value="tall">Tall</option>
+          <option value="square">Square</option>
+          <option value="wide">Wide</option>
+          <option value="panoramic">Panoramic</option>
+        </select>
+      </div>
+      
+      <!-- License -->
+      <div>
+        <label for="license" class="block text-gray-700 font-medium mb-2">License</label>
+        <select 
+          id="license" 
+          formControlName="license" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="any">Any License</option>
+          <option value="creative_commons">Creative Commons</option>
+          <option value="commercial">Commercial Use</option>
+          <option value="modification">Commercial Use & Modification</option>
+        </select>
+      </div>
+      
+      <!-- Site or Domain -->
+      <div>
+        <label for="site" class="block text-gray-700 font-medium mb-2">Site or Domain</label>
+        <input 
+          type="text" 
+          id="site" 
+          formControlName="site" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="e.g., example.com">
+      </div>
+      
+      <!-- Exclude Terms -->
+      <div>
+        <label for="excludeTerms" class="block text-gray-700 font-medium mb-2">Exclude Terms</label>
+        <input 
+          type="text" 
+          id="excludeTerms" 
+          formControlName="excludeTerms" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Terms to exclude...">
+      </div>
+      
+      <!-- Date Range -->
+      <div>
+        <label for="dateRange" class="block text-gray-700 font-medium mb-2">Date Range</label>
+        <select 
+          id="dateRange" 
+          formControlName="dateRange" 
+          class="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+          <option value="any">Any Time</option>
+          <option value="day">Past 24 hours</option>
+          <option value="week">Past week</option>
+          <option value="month">Past month</option>
+          <option value="year">Past year</option>
+        </select>
+      </div>
+      
+      <!-- Safe Search -->
+      <div>
+        <label class="block text-gray-700 font-medium mb-2">Safe Search</label>
+        <div class="flex items-center">
+          <input 
+            type="checkbox" 
+            id="safeSearch" 
+            formControlName="safeSearch" 
+            class="h-5 w-5 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+          <label for="safeSearch" class="ml-2 text-gray-700">Filter explicit results</label>
+        </div>
+      </div>
+    </div>
+    
+    <div class="mt-6">
+      <button 
+        type="submit" 
+        class="w-full md:w-auto px-6 py-3 bg-blue-600 text-white font-medium rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2">
+        Search Images
+      </button>
+    </div>
+  </form>
+  
+  <!-- Search Results -->
+  <div *ngIf="searched">
+    <h2 class="text-2xl font-bold mb-4">Search Results</h2>
+    
+    <div *ngIf="loading" class="flex justify-center py-12">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600"></div>
+    </div>
+    
+    <div *ngIf="error" class="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded mb-6">
+      {{ error }}
+    </div>
+    
+    <div *ngIf="!loading && results.length === 0 && !error" class="text-gray-500 text-center py-12">
+      No results found for your search. Try different search terms or filters.
+    </div>
+    
+    <div *ngIf="!loading && results.length > 0" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div *ngFor="let image of results" class="bg-white rounded-lg shadow-md overflow-hidden">        <a [routerLink]="['/image', image.id || image._id]" class="block h-48 overflow-hidden">
+          <img [src]="image.url" [alt]="image.title" class="w-full h-full object-cover transform transition-transform hover:scale-105">
+        </a>
+        <div class="p-4">
+          <h3 class="font-medium text-gray-800 truncate">{{ image.title }}</h3>
+          <div class="text-sm text-gray-500 mt-1 truncate" *ngIf="image.sourceUrl">
+            {{ image.sourceUrl }}
+          </div>
+          <div class="flex justify-between items-center mt-2">
+            <div class="flex items-center text-gray-600 text-sm">
+              <span class="mr-2">{{ image.likesCount || 0 }} likes</span>
+              <span>{{ image.commentsCount || 0 }} comments</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

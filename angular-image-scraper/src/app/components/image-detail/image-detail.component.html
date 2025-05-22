@@ -1,0 +1,193 @@
+<div class="max-w-6xl mx-auto">
+  <div *ngIf="loading" class="flex justify-center items-center py-12">
+    <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-500"></div>
+  </div>
+
+  <div *ngIf="error" class="p-4 mb-8 bg-red-100 text-red-700 rounded-lg">
+    {{ error }}
+  </div>
+
+  <ng-container *ngIf="!loading && !error && image">
+    <div class="mb-6">
+      <button (click)="goBack()" class="inline-flex items-center text-sm font-medium text-blue-500 hover:text-blue-700">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+        </svg>
+        Back
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div class="lg:col-span-2">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="p-4 border-b">
+            <h1 class="text-xl font-bold">{{ image.title }}</h1>
+            <p class="text-sm text-gray-500 mt-1">
+              <a [href]="image.sourceUrl" target="_blank" rel="noopener noreferrer" class="text-blue-500 hover:underline">View original source</a>
+            </p>
+          </div>
+          
+          <div class="flex justify-center p-4 bg-gray-50">
+            <img [src]="image.url" [alt]="image.title" class="max-w-full max-h-[600px] object-contain">
+          </div>
+          
+          <div class="p-4 border-t">
+            <div class="flex flex-wrap justify-between items-center">
+              <div class="flex items-center space-x-6 mb-4 md:mb-0">
+                <button 
+                  (click)="toggleLike()" 
+                  class="flex items-center space-x-1"
+                  [ngClass]="userLiked ? 'text-red-500' : 'text-gray-500 hover:text-red-500'"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" [attr.fill]="userLiked ? 'currentColor' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  </svg>
+                  <span>{{ image.likesCount || 0 }}</span>
+                </button>
+                
+                <div class="flex items-center space-x-1 text-gray-500">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+                  </svg>
+                  <span>{{ image.commentsCount || 0 }}</span>
+                </div>
+              </div>
+              
+              <div class="flex space-x-2">
+                <a 
+                  [href]="image.url" 
+                  download 
+                  target="_blank" 
+                  class="bg-green-500 hover:bg-green-600 text-white font-medium py-1 px-4 rounded-lg text-sm"
+                >
+                  Download
+                </a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Image Information -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-6">
+          <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">Image Information</h2>
+          </div>
+          
+          <div class="divide-y">
+            <div class="grid grid-cols-2 p-4">
+              <div class="text-sm text-gray-600">Dimensions</div>
+              <div class="text-sm font-medium">{{ image.width || 'Unknown' }} × {{ image.height || 'Unknown' }}px</div>
+            </div>
+            
+            <div class="grid grid-cols-2 p-4">
+              <div class="text-sm text-gray-600">File Type</div>
+              <div class="text-sm font-medium">{{ image.fileType || 'Unknown' }}</div>
+            </div>
+            
+            <div class="grid grid-cols-2 p-4">
+              <div class="text-sm text-gray-600">File Size</div>
+              <div class="text-sm font-medium">{{ image.fileSize ? (image.fileSize / 1024).toFixed(2) + ' KB' : 'Unknown' }}</div>
+            </div>
+            
+            <div class="grid grid-cols-2 p-4">
+              <div class="text-sm text-gray-600">Transparency</div>
+              <div class="text-sm font-medium">{{ image.isTransparent ? 'Yes' : 'No' }}</div>
+            </div>
+            
+            <div class="grid grid-cols-2 p-4">
+              <div class="text-sm text-gray-600">Copyright</div>
+              <div class="text-sm font-medium">
+                <span [ngSwitch]="image.copyrightStatus">
+                  <span *ngSwitchCase="'free'" class="text-green-700">Free to use</span>
+                  <span *ngSwitchCase="'commercial'" class="text-green-700">Free for commercial use</span>
+                  <span *ngSwitchCase="'noncommercial'" class="text-yellow-700">Free for noncommercial use only</span>
+                  <span *ngSwitchCase="'modification'" class="text-green-700">Free to modify</span>
+                  <span *ngSwitchDefault class="text-gray-500">Unknown</span>
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Comments Section -->
+        <div class="bg-white rounded-lg shadow-md overflow-hidden mt-6">
+          <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">Comments</h2>
+          </div>
+          
+          <div *ngIf="isLoggedIn" class="p-4 border-b">
+            <form [formGroup]="commentForm" (ngSubmit)="submitComment()" class="space-y-4">
+              <div>
+                <textarea 
+                  formControlName="text"
+                  rows="3"
+                  class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                  placeholder="Add your comment..."
+                ></textarea>
+                <div *ngIf="commentForm.get('text')?.invalid && commentForm.get('text')?.touched" class="text-red-500 text-xs mt-1">
+                  Comment text is required and must be at least 2 characters
+                </div>
+              </div>
+              
+              <div>
+                <button 
+                  type="submit" 
+                  class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-1.5 px-4 rounded-lg disabled:opacity-50"
+                  [disabled]="commentForm.invalid || submittingComment"
+                >
+                  {{ submittingComment ? 'Posting...' : 'Post Comment' }}
+                </button>
+              </div>
+            </form>
+          </div>
+          
+          <div *ngIf="!isLoggedIn" class="p-4 border-b text-center">
+            <a [routerLink]="['/login']" [queryParams]="{returnUrl: '/image/' + imageId}" class="text-blue-500 hover:underline">Log in to post a comment</a>
+          </div>
+          
+          <div class="divide-y">
+            <div *ngFor="let comment of comments" class="p-4">
+              <div class="flex items-start">
+                <div class="flex-grow">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-sm font-medium">{{ comment.user.username }}</h3>
+                    <time class="text-xs text-gray-500">{{ comment.createdAt | date:'medium' }}</time>
+                  </div>
+                  <p class="mt-1 text-sm text-gray-700">{{ comment.text }}</p>
+                </div>
+              </div>
+            </div>
+            
+            <div *ngIf="comments.length === 0" class="p-4 text-center text-gray-500">
+              No comments yet. Be the first to comment!
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Sidebar -->
+      <div class="lg:col-span-1">
+        <!-- Similar Images -->
+        <div *ngIf="similarImages.length > 0" class="bg-white rounded-lg shadow-md overflow-hidden">
+          <div class="p-4 border-b">
+            <h2 class="text-lg font-semibold">Similar Images</h2>
+          </div>
+          
+          <div class="divide-y">
+            <div *ngFor="let similarImage of similarImages" class="p-4 flex items-center">
+              <div class="flex-shrink-0">
+                <img [src]="similarImage.thumbnailUrl" [alt]="similarImage.title" class="w-16 h-16 object-cover rounded">
+              </div>
+              <div class="ml-4 flex-1">
+                <h3 class="text-sm font-medium">
+                  <a [routerLink]="['/image', similarImage.id]" class="hover:underline">{{ similarImage.title }}</a>
+                </h3>
+                <p class="text-xs text-gray-500 mt-1">{{ similarImage.width }}x{{ similarImage.height }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

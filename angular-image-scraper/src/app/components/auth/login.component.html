@@ -1,0 +1,58 @@
+<div class="max-w-md mx-auto mt-10">
+  <div class="bg-white rounded-lg shadow-md overflow-hidden">
+    <div class="p-6">
+      <h1 class="text-2xl font-bold text-center mb-6">Log In</h1>
+
+      <div *ngIf="error" class="p-3 mb-4 bg-red-100 text-red-700 rounded-lg">
+        {{ error }}
+      </div>
+      
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-4">
+        <div>
+          <label for="username" class="block text-sm font-medium text-gray-700 mb-1">Username</label>
+          <input 
+            type="text" 
+            id="username" 
+            formControlName="username"
+            class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            [ngClass]="{ 'border-red-500': submitted && loginForm.get('username')?.invalid }"
+          >
+          <div *ngIf="submitted && loginForm.get('username')?.errors" class="text-red-500 text-xs mt-1">
+            Username is required
+          </div>
+        </div>
+        
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Password</label>
+          <input 
+            type="password" 
+            id="password" 
+            formControlName="password"
+            class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+            [ngClass]="{ 'border-red-500': submitted && loginForm.get('password')?.invalid }"
+          >
+          <div *ngIf="submitted && loginForm.get('password')?.errors" class="text-red-500 text-xs mt-1">
+            Password is required
+          </div>
+        </div>
+        
+        <div>
+          <button 
+            type="submit" 
+            class="w-full bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg disabled:opacity-50"
+            [disabled]="loading"
+          >
+            {{ loading ? 'Logging in...' : 'Log In' }}
+          </button>
+        </div>
+      </form>
+      
+      <div class="mt-6 text-center">
+        <p class="text-sm text-gray-600">
+          Don't have an account? 
+          <a [routerLink]="['/register']" class="text-blue-500 hover:underline">Sign up</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

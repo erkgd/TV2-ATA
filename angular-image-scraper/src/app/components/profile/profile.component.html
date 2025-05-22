@@ -1,0 +1,72 @@
+<div class="container mx-auto px-4 py-8">
+  <!-- User Profile Section -->
+  <div class="mb-8 bg-white rounded-lg shadow-md p-6">
+    <div *ngIf="loading.user" class="flex justify-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+    </div>
+    
+    <div *ngIf="error.user" class="text-red-600 text-center mb-4">
+      {{ error.user }}
+    </div>
+    
+    <div *ngIf="user && !loading.user" class="flex flex-col md:flex-row items-center">
+      <div class="w-32 h-32 bg-gray-200 rounded-full overflow-hidden mb-4 md:mb-0 md:mr-6 flex-shrink-0">
+        <!-- User avatar or default avatar -->
+        <img [src]="user.avatar || 'assets/default-avatar.png'" alt="Profile" class="w-full h-full object-cover">
+      </div>
+      
+      <div class="flex-1">
+        <h1 class="text-2xl font-bold mb-2">{{ user.username }}</h1>
+        <p class="text-gray-600 mb-1">{{ user.email }}</p>
+        <p class="text-gray-500 mb-2">Member since {{ user.createdAt | date:'mediumDate' }}</p>
+        
+        <div class="flex flex-wrap gap-4 mt-4">
+          <div class="bg-gray-100 px-4 py-2 rounded-lg">
+            <span class="block text-gray-500 text-sm">Uploads</span>            <span class="font-bold">{{ userImages.length || 0 }}</span>
+          </div>
+          <div class="bg-gray-100 px-4 py-2 rounded-lg">
+            <span class="block text-gray-500 text-sm">Favorites</span>
+            <span class="font-bold">{{ favoriteImages.length || 0 }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- User uploads section removed per request -->
+  
+  <!-- User Favorite Images -->
+  <div>
+    <h2 class="text-xl font-bold mb-4 border-b pb-2">My Favorites</h2>
+    
+    <div *ngIf="loading.favorites" class="flex justify-center my-8">
+      <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+    </div>
+    
+    <div *ngIf="error.favorites" class="text-red-600 text-center mb-4">
+      {{ error.favorites }}
+    </div>
+    
+    <div *ngIf="!loading.favorites && favoriteImages.length === 0" class="text-center text-gray-500 my-8">
+      You haven't added any images to your favorites yet.
+    </div>
+    
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div *ngFor="let image of favoriteImages" class="bg-white rounded-lg shadow-md overflow-hidden">        <a [routerLink]="['/image', getImageId(image)]" class="block h-48 overflow-hidden">
+          <img [src]="image.url" [alt]="image.title" class="w-full h-full object-cover transform transition-transform hover:scale-105">
+        </a>
+        <div class="p-4">
+          <h3 class="font-medium text-gray-800 truncate">{{ image.title }}</h3>
+          <div class="flex justify-between items-center mt-2">
+            <div class="flex items-center text-gray-600 text-sm">
+              <span class="mr-2">{{ image.likesCount || 0 }} likes</span>
+              <span>{{ image.commentsCount || 0 }} comments</span>
+            </div>            <button (click)="removeFromFavorites(getImageId(image))" class="text-red-500 hover:text-red-700">
+              <i class="fas fa-heart-broken"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

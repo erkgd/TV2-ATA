@@ -1,0 +1,17 @@
+/* Profile component styles */
+.profile-avatar {
+  position: relative;
+  
+  &:hover::after {
+    content: 'Change photo';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    text-align: center;
+    padding: 0.25rem;
+    font-size: 0.75rem;
+  }
+}

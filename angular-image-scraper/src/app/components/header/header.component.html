@@ -1,0 +1,15 @@
+<header class="bg-white shadow-md">
+  <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+    <a [routerLink]="['/']" class="text-xl font-bold text-gray-800">ImageScraper</a>
+    <div class="flex items-center space-x-4">
+      <ng-container *ngIf="isLoggedIn; else notLoggedIn">
+        <a [routerLink]="['/profile']" class="text-gray-600 hover:text-gray-900">Profile</a>
+        <button (click)="logout()" class="text-gray-600 hover:text-gray-900">Logout</button>
+      </ng-container>
+      <ng-template #notLoggedIn>
+        <a [routerLink]="['/login']" class="text-gray-600 hover:text-gray-900">Login</a>
+        <a [routerLink]="['/register']" class="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded-lg">Sign Up</a>
+      </ng-template>
+    </div>
+  </nav>
+</header>
