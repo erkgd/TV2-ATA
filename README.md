@@ -1,55 +1,54 @@
-# Image Crawler Project Suite
+# Suite de Projectes Image Crawler
 
-## Overview
+## Visió general
 
-This repository contains four different implementations of an Image Crawler application, each developed with different technologies to demonstrate various approaches to solving the same problem. The project suite includes:
+Aquest repositori conté quatre implementacions diferents d'una aplicació Image Crawler, cadascuna desenvolupada amb tecnologies diferents per demostrar diversos enfocaments per resoldre el mateix problema. La suite de projectes inclou:
 
-1. **Django Image Scraper**: A full-stack web application built with Django
-2. **Angular Image Scraper**: A modern frontend application built with Angular
-3. **Node Image Scraper**: A REST API service built with Node.js
-4. **Flutter Image Crawler**: A cross-platform mobile application
+1. **Django Image Scraper**: Una aplicació web completa construïda amb Django
+2. **Angular Image Scraper**: Una aplicació frontend moderna construïda amb Angular
+3. **Node Image Scraper**: Un servei API REST construït amb Node.js
+4. **Flutter Image Crawler**: Una aplicació mòbil multiplataforma
 
-All implementations provide similar core functionalities but showcase different architectures and technology stacks.
+Totes les implementacions proporcionen funcionalitats bàsiques similars però mostren arquitectures i piles tecnològiques diferents.
 
-## Core Features Across All Platforms
+## Funcionalitats principals en totes les plataformes
 
-- 🔍 **Advanced image search** with multiple filters
-- 🖼️ **Image discovery** from various sources
-- 👤 **User authentication** and profile management
-- 💾 **Save and organize** favorite images
-- 💬 **Social interactions** - comments and likes
-- 📊 **Search history** tracking
+- 🔍 **Cerca avançada d'imatges** amb múltiples filtres
+- 🖼️ **Descobriment d'imatges** de diverses fonts
+- 👤 **Autenticació d'usuaris** i gestió de perfils
+- 💾 **Guardar i organitzar** imatges preferides
+- 💬 **Interaccions socials** - comentaris i m'agrada
+- 📊 **Seguiment de l'historial** de cerques
 
-## Project Structure
+## Estructura del projecte
 
 ```
 image-crawler/
-├── angular-image-scraper/   # Angular frontend
-├── django-image-scraper/    # Django full-stack web app
-├── node-image-scraper/      # Node.js API backend
-└── image_crawler_flutter/   # Flutter mobile app
+├── angular-image-scraper/   # Frontend Angular
+├── django-image-scraper/    # Aplicació web completa amb Django
+├── node-image-scraper/      # Backend API amb Node.js
+└── image_crawler_flutter/   # Aplicació mòbil Flutter
 ```
 
-## Applications
+## Aplicacions
 
 ### 1. Django Image Scraper
 
-A full-stack web application built with Django, providing both backend and frontend functionality.
+Una aplicació web completa construïda amb Django, que proporciona funcionalitats de backend i frontend.
 
-**Technologies:**
-- Django & Django REST Framework
+**Tecnologies:**
+- Django i Django REST Framework
 - SQLite/PostgreSQL
 - Tailwind CSS
-- Docker support
 
-**Key Features:**
-- Google Images scraping with filters
-- User authentication and profiles
-- Image liking and commenting
-- Image metadata extraction
-- Responsive web interface
+**Funcionalitats clau:**
+- Raspat d'imatges de Google Images amb filtres
+- Autenticació i perfils d'usuari
+- M'agrada i comentaris d'imatges
+- Extracció de metadades d'imatges
+- Interfície web responsive
 
-**Setup:**
+**Configuració:**
 ```bash
 cd django-image-scraper
 pip install -r requirements.txt
@@ -57,30 +56,24 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-Or with Docker:
-```bash
-cd django-image-scraper
-docker-compose up
-```
-
 ### 2. Angular Image Scraper
 
-A modern frontend application built with Angular, focusing on responsive design and user experience.
+Una aplicació frontend moderna construïda amb Angular, centrada en el disseny responsive i l'experiència d'usuari.
 
-**Technologies:**
+**Tecnologies:**
 - Angular 15+
 - TypeScript
 - TailwindCSS
 - RxJS
 
-**Key Features:**
-- Responsive design for all devices
-- Advanced state management
-- Optimized image loading
-- Dark/light mode support
-- Accessibility compliance
+**Funcionalitats clau:**
+- Disseny responsive per a tots els dispositius
+- Gestió avançada de l'estat
+- Càrrega optimitzada d'imatges
+- Suport per a mode fosc/clar
+- Compliment d'accessibilitat
 
-**Setup:**
+**Configuració:**
 ```bash
 cd angular-image-scraper
 npm install
@@ -89,261 +82,95 @@ npm start
 
 ### 3. Node Image Scraper
 
-A REST API service built with Node.js, focusing on performance and scalability.
+Un servei API REST construït amb Node.js, centrat en el rendiment i l'escalabilitat.
 
-**Technologies:**
-- Node.js & Express
+**Tecnologies:**
+- Node.js i Express
 - MongoDB
-- JWT Authentication
-- Docker support
+- Autenticació JWT
 
-**Key Features:**
-- RESTful API design
-- JWT-based authentication
-- Image scraping from Google Images
-- Alternative API-based image search (Pixabay)
-- Image metadata extraction
+**Funcionalitats clau:**
+- Disseny API RESTful
+- Autenticació basada en JWT
+- Raspat d'imatges de Google Images
+- Cerca alternativa d'imatges basada en API (Pixabay)
+- Extracció de metadades d'imatges
 
-**Setup:**
+**Configuració:**
 ```bash
+# Primer, iniciar MongoDB (necessari per al servidor Node.js)
+docker run -d --name mongodb -p 27017:27017 mongo:latest
+
+# Després configurar i iniciar el servidor
 cd node-image-scraper
 npm install
 npm run dev
 ```
 
-Or with Docker:
-```bash
-cd node-image-scraper
-docker-compose up
-```
-
 ### 4. Flutter Image Crawler
 
-A cross-platform mobile application built with Flutter, providing a native experience on both iOS and Android.
+Una aplicació mòbil multiplataforma construïda amb Flutter, que proporciona una experiència nativa tant a iOS com a Android.
 
-**Technologies:**
-- Flutter & Dart
-- Provider/BLoC for state management
-- HTTP client for API integration
-- Local data persistence
+**Tecnologies:**
+- Flutter i Dart
+- Provider/BLoC per a la gestió d'estat
+- Client HTTP per a integració amb API
+- Persistència de dades local
 
-**Key Features:**
-- Cross-platform native experience
-- Offline support
-- Image caching
-- Smooth transitions and animations
-- Deep integration with mobile platform features
+**Funcionalitats clau:**
+- Experiència nativa multiplataforma
+- Suport offline
+- Emmagatzematge en caché d'imatges
+- Transicions i animacions suaus
+- Integració profunda amb característiques de la plataforma mòbil
 
-**Setup:**
+**Configuració:**
 ```bash
 cd image_crawler_flutter
 flutter pub get
 flutter run
 ```
 
-## System Architecture
+## Arquitectura del sistema
 
-The applications follow different architectural patterns:
+Les aplicacions segueixen diferents patrons arquitectònics:
 
-- **Django**: Monolithic MVC architecture with integrated ORM
-- **Angular**: Component-based architecture with services
-- **Node.js**: Microservice RESTful API with MVC pattern
-- **Flutter**: BLoC/Provider pattern with repository layer
+- **Django**: Arquitectura MVC monolítica amb ORM integrat
+- **Angular**: Arquitectura basada en components amb serveis
+- **Node.js**: API RESTful de microserveis amb patró MVC
+- **Flutter**: Patró BLoC/Provider amb capa de repositori
 
-## API Integration
+## Integració API
 
-Each implementation can either:
-1. Work independently (Django as full-stack)
-2. Work in combination (Angular or Flutter frontend with Django or Node backend)
+Cada implementació pot:
+1. Funcionar de manera independent (Django com a full-stack)
+2. Funcionar en combinació (Angular o Flutter frontend amb Django o Node backend)
 
-The backend services (Django and Node) provide similar API endpoints for:
-- User authentication
-- Image search and retrieval
-- Social interactions (likes, comments)
-- User profile management
+Els serveis de backend (Django i Node) proporcionen punts finals d'API similars per a:
+- Autenticació d'usuaris
+- Cerca i recuperació d'imatges
+- Interaccions socials (m'agrada, comentaris)
+- Gestió de perfils d'usuari
 
-## Requirements
+## Requisits
 
 ### Backend (Django/Node)
-- Python 3.8+ (Django) or Node.js 14+ (Node)
-- Database: SQLite/PostgreSQL (Django) or MongoDB (Node)
-- Docker & Docker Compose (optional)
+- Python 3.8+ (Django) o Node.js 14+ (Node)
+- Base de dades: SQLite/PostgreSQL (Django) o MongoDB (Node)
 
 ### Frontend (Angular)
 - Node.js 14+
 - Angular CLI
 
-### Mobile (Flutter)
+### Mòbil (Flutter)
 - Flutter SDK 3.0+
 - Dart 2.17+
-- Android Studio / Xcode for emulators
-
-## License
-
-This project is licensed under the MIT License - see the LICENSE file for details.
-
-## Contributors
-
-- Alejandro González - Developer
-
-### Característiques tècniques
-
-- **Arquitectura**:
-  - Aplicació monolítica desenvolupada amb Django 4.2
-  - Base de dades SQLite
-  - Frontend amb HTML, CSS (Tailwind) i JavaScript
-  
-- **Tecnologies emprades**:
-  - **Backend**: Python, Django
-  - **Frontend**: HTML5, Tailwind CSS, JavaScript
-  - **Base de dades**: SQLite
-  - **Extracció de dades**: BeautifulSoup, Requests
-  - **Processament d'imatges**: Pillow
-
-- **Implementacions avançades**:
-  - Web scraping robust per extreure imatges de Google
-  - Sistema de paginació
-  - Gestió d'errors
-  - Sistema de notificacions
-  - Previsualització d'imatges amb modal
-  - Imatges de tendència basades en "m'agrada"
-
-## Instal·lació i configuració
-
-### Requisits previs
-
-- Python 3.8 o superior
-- pip (gestor de paquets de Python)
-- Navegador web modern
-
-### Passos d'instal·lació
-
-1. **Clonar el repositori**:
-   ```bash
-   git clone <url-del-repositori>
-   cd django-image-scraper
-   ```
-
-2. **Crear i activar un entorn virtual**:
-   ```bash
-   python -m venv venv
-   # En Windows:
-   venv\Scripts\activate
-   # En Unix/MacOS:
-   source venv/bin/activate
-   ```
-
-3. **Instal·lar dependències**:
-   ```bash
-   pip install -r requirements.txt
-   ```
-
-4. **Aplicar les migracions de la base de dades**:
-   ```bash
-   python manage.py migrate
-   ```
-
-5. **Crear un superusuari (opcional)**:
-   ```bash
-   python manage.py createsuperuser
-   ```
-
-6. **Iniciar el servidor de desenvolupament**:
-   ```bash
-   python manage.py runserver
-   ```
-
-7. **Accedir a l'aplicació**:
-   Obre el navegador i accedeix a `http://127.0.0.1:8000/`
-
-## Ús de l'aplicació
-
-### Cercar imatges
-
-1. Introdueix el terme de cerca al camp de cerca a la pàgina principal
-2. Opcionalment, selecciona filtres per drets d'autor o transparència
-3. Fes clic a "Search Images" per obtenir resultats
-
-### Interactuar amb imatges
-
-1. Fes clic en una imatge per veure'n els detalls
-2. Des de la vista detallada, pots:
-   - Donar "m'agrada" a la imatge (requereix inici de sessió)
-   - Afegir comentaris (requereix inici de sessió)
-   - Veure imatges similars
-   - Descarregar la imatge
-
-### Gestió d'usuaris
-
-1. Registra't mitjançant l'enllaç "Sign up"
-2. Inicia sessió amb les teves credencials
-3. Accedeix al teu perfil per veure el teu historial de cerques, imatges amb "m'agrada" i comentaris
-
-## Personalització i desenvolupament
-
-L'aplicació està dissenyada per ser extensible. Algunes àrees que es poden personalitzar:
-
-- **Estils**: Modificant els arxius Tailwind CSS
-- **Fonts de dades**: Canviant l'estratègia de scraping o utilitzant APIs d'imatges
-- **Funcionalitats**: Afegint noves característiques a través de vistes de Django addicionals
-
-## Configuració amb Docker
-
-### Requisits previs per Docker
-
-- Docker i Docker Compose instal·lats al sistema
-- Git per clonar el repositori
-
-### Passos per executar amb Docker
-
-1. **Clonar el repositori**:
-   ```bash
-   git clone <url-del-repositori>
-   cd django-image-scraper
-   ```
-
-2. **Construir i iniciar els contenidors**:
-   ```bash
-   docker-compose build
-   docker-compose up -d
-   ```
-
-3. **Verificar que els contenidors estan en funcionament**:
-   ```bash
-   docker-compose ps
-   ```
-
-4. **Accedir a l'aplicació**:
-   Obre el navegador i accedeix a `http://localhost/`
-
-### Comandes útils de Docker
-
-- **Veure registres de l'aplicació**:
-  ```bash
-  docker-compose logs -f web
-  ```
-
-- **Executar comandes dins del contenidor Django**:
-  ```bash
-  docker-compose exec web python manage.py [comanda]
-  ```
-
-- **Aturar tots els serveis**:
-  ```bash
-  docker-compose down
-  ```
-
-- **Aturar els serveis i eliminar volums de dades**:
-  ```bash
-  docker-compose down -v
-  ```
-
-### Estructura de contenidors
-
-- **db**: PostgreSQL per emmagatzemar dades
-- **web**: Aplicació Django servida amb Gunicorn
-- **nginx**: Servidor web per servir contingut estàtic i actuar com a proxy invers
+- Android Studio / Xcode per als emuladors
 
 ## Llicència
 
-Aquest projecte és només per a finalitats educatives.
+Aquest projecte està llicenciat sota la Llicència MIT - consulteu l'arxiu LICENSE per a més detalls.
+
+## Col·laboradors
+
+- Alejandro González - Desenvolupador
