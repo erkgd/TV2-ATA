@@ -171,6 +171,3 @@ Els serveis de backend (Django i Node) proporcionen punts finals d'API similars 
 
 Aquest projecte està llicenciat sota la Llicència MIT - consulteu l'arxiu LICENSE per a més detalls.
 
-## Col·laboradors
-
-- Alejandro González - Desenvolupador
